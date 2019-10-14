@@ -8,11 +8,13 @@ public class uva_336 {
 
         Scanner sc = new Scanner(System.in);
 
-        boolean active = true;
+        boolean input = true;
 
-        while (active) {
+        HashMap<Integer, ArrayList<Integer>> c = new HashMap<>();
 
-            HashMap<Integer, ArrayList<Integer>> c = new HashMap<>();
+        while (input) {
+
+            
             
             int pairs = sc.nextInt();
 
@@ -45,7 +47,29 @@ public class uva_336 {
             }
             */
 
-            active = false;
+            input = false;
+
+        }
+
+        input = true;
+
+        while (input) {
+            int start = sc.nextInt();
+            int ttl = sc.nextInt();
+
+            if (start == 0 && ttl == 0) {
+                input = false;
+                break;
+            }
+
+            for (Integer i : c.keySet()) {
+                if (i == start) {
+                    continue;
+                }
+
+                bfs(c, start, i);
+
+            }
 
         }
 
