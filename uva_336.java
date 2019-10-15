@@ -52,33 +52,40 @@ public class uva_336 {
         }
 
         input = true;
-
-        while (input) {
-            int start = sc.nextInt();
-            int ttl = sc.nextInt();
-
-            if (start == 0 && ttl == 0) {
-                input = false;
-                break;
-            }
-
-            for (Integer i : c.keySet()) {
-                if (i == start) {
-                    continue;
-                }
-
-                bfs(c, start, i);
-
-            }
-
-        }
+        int cases = 0;
+        	
+    	while (input) {
+	        int start = sc.nextInt();
+	                   
+	        cases++; 
+	        
+	        int ttl = sc.nextInt();
+	        int nodesUnreachable = 0;
+	
+	        if (start == 0 && ttl == 0) {
+	            input = false;
+	            break;
+	        }
+	
+	        for (Integer i : c.keySet()) {
+	            if (i == start) {
+	                continue;
+	            }
+	
+	            nodesUnreachable += bfs(c, start, i, ttl);
+	
+	        }
+	
+	        System.out.println("Case " + cases + ": " + nodesUnreachable + " nodes not reachable from node " + start + " with TTL = " + ttl + ".");
+    	}
+        	
 
         sc.close();
 
     }
 
-    private static void bfs(HashMap<Integer, ArrayList<Integer>> adj, int src, int dst) {
-        Integer[] queue = new Integer[1];
+    private static int bfs(HashMap<Integer, ArrayList<Integer>> adj, int src, int dst, int ttl) {
+        Integer[] queue = new Integer[adj.size()];
         queue[0] = src;
         int head = 0;
         int tail = 1;
@@ -98,12 +105,30 @@ public class uva_336 {
                     disc.add(v);
                     prev.put(v, u);
                     if (v == dst) {
-                        success =true;
+                        success = true;
                         break;
                     }
                 }
             }
 
+        }
+        
+        int len = 0;
+        
+        if (success) {
+        	len = 0;
+        	int v = dst;
+        	while (v != src) {
+        		int u = prev.get(v);
+        		v = u;
+        		len++;
+        	}
+        }
+
+        if (len > ttl) {
+            return 1;
+        } else {
+            return 0;
         }
 
     }
