@@ -36,11 +36,11 @@ public class uva_336 {
                     nodesUnreachable = c.keySet().size();
 
                 } else {
-                for (Integer i : c.keySet()) {
+                    for (Integer i : c.keySet()) {
 
-                    nodesUnreachable += bfs(c, start, i, ttl);
-        
-                }
+                        nodesUnreachable += bfs(c, start, i, ttl);
+            
+                    }
                 }
         
                 System.out.println("Case " + cases + ": " + nodesUnreachable + " nodes not reachable from node " + start + " with TTL = " + ttl + ".");
@@ -53,28 +53,28 @@ public class uva_336 {
 
     private static int bfs(HashMap<Integer, ArrayList<Integer>> adj, int src, int dst, int ttl) {
 
+        // Edge case: TTL = 0
         if (ttl == 0) {
-
+            // If source == destination, it can reach itself
             if (src == dst) {
 
                 return 0;
-
+            // Else, it can't reach the destination node
             } else {
-
                 return 1;
-
             }
-
         }
 
+        // Don't even know if this is necessary
         if (adj.isEmpty())
             return 0;
 
-
+        // Source can always reach itself
         if (src == dst) {
             return 0;
         }
 
+        // Base-line BFS algorithmic code
         Integer[] queue = new Integer[adj.size()];
         queue[0] = src;
         int head = 0;
@@ -114,9 +114,11 @@ public class uva_336 {
         		len++;
         	}
         } else {
+            // Failure shows node cannot be reached
             return 1;
         }
 
+        // Determining whether TTL was breached
         if (len > ttl) {
             return 1;
         } else {
