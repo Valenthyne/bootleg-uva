@@ -35,8 +35,8 @@ public class uva_924 {
         for (int test = 0; test < numTests; test++) {
 
         	// Initialize max boom and boom day integers
-            Integer m = 0;
-            Integer d = 0;
+            int m = 0;
+            int d = 0;
             
             // Employee to be selected for the given test case
             int emp = sc.nextInt();
@@ -49,7 +49,7 @@ public class uva_924 {
               
                 // Determine if emp can reach any one of the other employees (itself excluded)
 	            if (i != emp) {
-	            	 bfs(friends, emp, i, days, m, d);
+	            	 bfs(friends, emp, i, days);
 	     		}
              
             }
@@ -57,14 +57,13 @@ public class uva_924 {
             // Cycle through days list to find the maximum boom and specific day
             for (int i = 0; i < days.length; i++) {
 
-            	for (int j = 1; j < days[i].length; j++) {
-                    // If i-th days maximum boom is greater than m
-            		if (days[i][j] > m) {
-            			m = days[i][j];
-            			d = i + 1;
-            		}
+                if (days[i][1] > m){
+                    m = days[i][1];
+                    d = i + 1;
+                }
+
         	  }
-          }
+          
 
             // Time to print the output for the given test case
             if (m == 0 && d == 0) {
@@ -77,7 +76,7 @@ public class uva_924 {
         sc.close();
     }
 
-    private static void bfs(int[][] adj, int src, int dst, int[][] dayArr, Integer m, Integer d) {
+    private static void bfs(int[][] adj, int src, int dst, int[][] dayArr) {
 
         // Basic boiler-plate for BFS
         int[] queue = new int[adj.length];
@@ -117,16 +116,9 @@ public class uva_924 {
         		v = u;
         		days++;
         	}
-            
             // Upon success, the total number employees reached is incremented
         	dayArr[days - 1][1]++;
-            
-            // Update maximum value if necessary
-        	if (dayArr[days - 1][1] > m) {
-        		m = dayArr[days - 1][1];
-        		d = days - 1;
-        	}
-        	
+
         }
 
     }
