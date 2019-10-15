@@ -31,7 +31,7 @@ public class uva_924 {
 
         int numTests = sc.nextInt();
 
-        // Master loop for governing all test cases
+        // Master loop for administering the test cases
         for (int test = 0; test < numTests; test++) {
 
         	// Initialize max boom and boom day integers
@@ -41,13 +41,13 @@ public class uva_924 {
             // Employee to be selected for the given test case
             int emp = sc.nextInt();
             
-            
-            // Array of days and spotted employees
+            // Array of days and total reached employees
             int[][] days = new int[numEmployees + 1][2];
             
             // Determine if the employee can reach any one of the employee nodes
             for (int i = 0; i < numEmployees; i++) {
-        	  
+              
+                // Determine if emp can reach any one of the other employees (itself excluded)
 	            if (i != emp) {
 	            	 bfs(friends, emp, i, days, m, d);
 	     		}
@@ -58,6 +58,7 @@ public class uva_924 {
             for (int i = 0; i < days.length; i++) {
 
             	for (int j = 1; j < days[i].length; j++) {
+                    // If i-th days maximum boom is greater than m
             		if (days[i][j] > m) {
             			m = days[i][j];
             			d = i + 1;
@@ -78,19 +79,20 @@ public class uva_924 {
 
     private static void bfs(int[][] adj, int src, int dst, int[][] dayArr, Integer m, Integer d) {
 
-        Integer[] queue = new Integer[adj.length];
+        // Basic boiler-plate for BFS
+        int[] queue = new int[adj.length];
         queue[0] = src;
         int head = 0;
         int tail = 1;
 
+        // Discovery list for employees
         boolean[] disc = new boolean[adj.length];
-        
         disc[src] = true;
 
         HashMap<Integer, Integer> prev = new HashMap<>();
-
         boolean success = false;
 
+        // Actual BFS searching loop
         while (!success && head < tail) {
 	        Integer u = queue[head++];
 	        for (Integer v: adj[u]) {
@@ -106,7 +108,7 @@ public class uva_924 {
 	        }
         }
         
-
+        // If emp did reach the target employee
         if (success) {
         	int v = dst;
         	int days = 0;
@@ -115,9 +117,11 @@ public class uva_924 {
         		v = u;
         		days++;
         	}
-        	
+            
+            // Upon success, the total number employees reached is incremented
         	dayArr[days - 1][1]++;
-        	
+            
+            // Update maximum value if necessary
         	if (dayArr[days - 1][1] > m) {
         		m = dayArr[days - 1][1];
         		d = days - 1;
