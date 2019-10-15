@@ -7,84 +7,74 @@ public class uva_336 {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-
         boolean input = true;
+        int cases = 0;
 
-        HashMap<Integer, ArrayList<Integer>> c = new HashMap<>();
-
-        while (input) {
-
-            
-            
+        while (true) {
             int pairs = sc.nextInt();
 
-            for (int i = 0; i < pairs; i++) {
-                int n1 = sc.nextInt();
-                int n2 = sc.nextInt();
+            if (pairs == 0)
+                break;
 
-                if (c.containsKey(n1)) {
-                    c.get(n1).add(n2);
-                } else {
-                    ArrayList<Integer> x = new ArrayList<Integer>();
-                    x.add(n2);
-                    c.put(n1, x);
+            HashMap<Integer, ArrayList<Integer>> c = init(pairs, sc);
+
+            input = true;
+                        
+            while (input) {
+                int start = sc.nextInt(); 
+                int ttl = sc.nextInt();
+                int nodesUnreachable = 0;
+        
+                if (start == 0 && ttl == 0) {
+                    input = false;
+                    break;
                 }
+                
+                cases++;
 
-                if (c.containsKey(n2)) {
-                    c.get(n2).add(n1);
+                if (!c.keySet().contains(start)) {
+                    nodesUnreachable = c.keySet().size();
+
                 } else {
-                    ArrayList<Integer> x = new ArrayList<Integer>();
-                    x.add(n1);
-                    c.put(n2, x);
+                for (Integer i : c.keySet()) {
+
+                    nodesUnreachable += bfs(c, start, i, ttl);
+        
                 }
-
+                }
+        
+                System.out.println("Case " + cases + ": " + nodesUnreachable + " nodes not reachable from node " + start + " with TTL = " + ttl + ".");
             }
-
-            /*
-            for (Integer key : c.keySet()) {
-                System.out.println("Key: " + key);
-                System.out.println("Value: " + c.get(key) + "\n");
-            }
-            */
-
-            input = false;
-
         }
-
-        input = true;
-        int cases = 0;
-        	
-    	while (input) {
-	        int start = sc.nextInt();
-	                   
-	        cases++; 
-	        
-	        int ttl = sc.nextInt();
-	        int nodesUnreachable = 0;
-	
-	        if (start == 0 && ttl == 0) {
-	            input = false;
-	            break;
-	        }
-	
-	        for (Integer i : c.keySet()) {
-	            if (i == start) {
-	                continue;
-	            }
-	
-	            nodesUnreachable += bfs(c, start, i, ttl);
-	
-	        }
-	
-	        System.out.println("Case " + cases + ": " + nodesUnreachable + " nodes not reachable from node " + start + " with TTL = " + ttl + ".");
-    	}
-        	
 
         sc.close();
 
     }
 
     private static int bfs(HashMap<Integer, ArrayList<Integer>> adj, int src, int dst, int ttl) {
+
+        if (ttl == 0) {
+
+            if (src == dst) {
+
+                return 0;
+
+            } else {
+
+                return 1;
+
+            }
+
+        }
+
+        if (adj.isEmpty())
+            return 0;
+
+
+        if (src == dst) {
+            return 0;
+        }
+
         Integer[] queue = new Integer[adj.size()];
         queue[0] = src;
         int head = 0;
@@ -123,6 +113,8 @@ public class uva_336 {
         		v = u;
         		len++;
         	}
+        } else {
+            return 1;
         }
 
         if (len > ttl) {
@@ -130,6 +122,37 @@ public class uva_336 {
         } else {
             return 0;
         }
+
+    }
+
+    private static HashMap<Integer, ArrayList<Integer>> init(int pairs, Scanner sc) {
+
+        HashMap<Integer, ArrayList<Integer>> c = new HashMap<>();
+
+        for (int i = 0; i < pairs; i++) {
+            int n1 = sc.nextInt();
+            int n2 = sc.nextInt();
+
+            if (c.containsKey(n1)) {
+                c.get(n1).add(n2);
+            } else {
+                ArrayList<Integer> x = new ArrayList<Integer>();
+                x.add(n2);
+                c.put(n1, x);
+            }
+
+            if (c.containsKey(n2)) {
+                c.get(n2).add(n1);
+            } else {
+                ArrayList<Integer> x = new ArrayList<Integer>();
+                x.add(n1);
+                c.put(n2, x);
+            }
+
+        }
+
+        return c;
+
 
     }
 
