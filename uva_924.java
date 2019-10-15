@@ -16,17 +16,14 @@ public class uva_924 {
 
         // Initializing employees friend's list
         for (int i = 0; i < numEmployees; i++) {
-        	// Take input line and split it
-            String[] friendLine = sc.nextLine().split(" ");
-            
-            // First value equals number of friends
-            friends[i] = new int[Integer.parseInt(friendLine[0])];
-            
-            // Inputting each of the friends
-            for (int j = 0; j < friends[i].length; j++) {
-                friends[i][j] = Integer.parseInt(friendLine[j + 1]);
-            }
 
+            int empCnt = sc.nextInt();
+            friends[i] = new int[empCnt];
+
+            for (int j = 0; j < empCnt; j++) {
+                friends[i][j] = sc.nextInt();
+
+            }
         }
 
         int numTests = sc.nextInt();
