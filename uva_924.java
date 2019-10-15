@@ -42,7 +42,7 @@ public class uva_924 {
             int emp = sc.nextInt();
             
             // Array of days and total reached employees
-            int[][] days = new int[numEmployees + 1][2];
+            int[] days = new int[numEmployees + 1];
             
             // Determine if the employee can reach any one of the employee nodes
             for (int i = 0; i < numEmployees; i++) {
@@ -57,8 +57,8 @@ public class uva_924 {
             // Cycle through days list to find the maximum boom and specific day
             for (int i = 0; i < days.length; i++) {
 
-                if (days[i][1] > m){
-                    m = days[i][1];
+                if (days[i] > m){
+                    m = days[i];
                     d = i + 1;
                 }
 
@@ -76,7 +76,7 @@ public class uva_924 {
         sc.close();
     }
 
-    private static void bfs(int[][] adj, int src, int dst, int[][] dayArr) {
+    private static void bfs(int[][] adj, int src, int dst, int[] dayArr) {
 
         // Basic boiler-plate for BFS
         int[] queue = new int[adj.length];
@@ -117,7 +117,7 @@ public class uva_924 {
         		days++;
         	}
             // Upon success, the total number employees reached is incremented
-        	dayArr[days - 1][1]++;
+        	dayArr[days - 1]++;
 
         }
 
