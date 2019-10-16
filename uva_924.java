@@ -8,116 +8,93 @@ public class uva_924 {
 
         Scanner sc = new Scanner(System.in);
 
-        int numEmployees = sc.nextInt();
+        int empCount = sc.nextInt();
 
         sc.nextLine();
 
-        int[][] friends = new int[numEmployees][];
+        int[][] friends = new int[empCount][];
 
         // Initializing employees friend's list
-        for (int i = 0; i < numEmployees; i++) {
+        for (int i = 0; i < empCount; i++) {
 
-            int empCnt = sc.nextInt();
-            friends[i] = new int[empCnt];
+            int friendCount = sc.nextInt();
+            friends[i] = new int[friendCount];
 
-            for (int j = 0; j < empCnt; j++) {
+            for (int j = 0; j < friendCount; j++) {
                 friends[i][j] = sc.nextInt();
 
             }
         }
 
-        int numTests = sc.nextInt();
+        int testCount = sc.nextInt();
 
         // Master loop for administering the test cases
-        for (int test = 0; test < numTests; test++) {
+        for (int t = 0; t < testCount; t++) {
 
-        	// Initialize max boom and boom day integers
-            int m = 0;
-            int d = 0;
-            
             // Employee to be selected for the given test case
             int emp = sc.nextInt();
             
             // Array of days and total reached employees
-            int[] days = new int[numEmployees + 1];
+            int[] days = new int[empCount + 1];
             
             // Determine if the employee can reach any one of the employee nodes
-            for (int i = 0; i < numEmployees; i++) {
               
-                // Determine if emp can reach any one of the other employees (itself excluded)
-	            if (i != emp) {
-	            	 bfs(friends, emp, i, days);
-	     		}
-             
-            }
+            bfs(friends, emp, days);
 
-            // Cycle through days list to find the maximum boom and specific day
-            for (int i = 0; i < days.length; i++) {
-
-                if (days[i] > m){
-                    m = days[i];
-                    d = i + 1;
-                }
-
-        	  }
-          
-
-            // Time to print the output for the given test case
-            if (m == 0 && d == 0) {
-                System.out.println("0");
-            } else {
-                System.out.println(m + " " + d);
-            }
         }
 
         sc.close();
     }
 
-    private static void bfs(int[][] adj, int src, int dst, int[] dayArr) {
+    private static void bfs(int[][] adj, int start, int[] dayCounter) {
 
         // Basic boiler-plate for BFS
         int[] queue = new int[adj.length];
-        queue[0] = src;
+        queue[0] = start;
         int head = 0;
         int tail = 1;
 
         // Discovery list for employees
-        boolean[] disc = new boolean[adj.length];
-        disc[src] = true;
+        boolean[] discovered = new boolean[adj.length];
+        discovered[start] = true;
 
-        HashMap<Integer, Integer> prev = new HashMap<>();
-        boolean success = false;
+        // Initialize array to track distances from start node for each employee (by index)
+        int[] distanceFromStart = new int[adj.length];
+
+        int max = 0;
+        int day = 0;
 
         // Actual BFS searching loop
-        while (!success && head < tail) {
-	        Integer u = queue[head++];
-	        for (Integer v: adj[u]) {
-	            if (disc[v] == false) {
+        while (head < tail) {
+            int u = queue[head++];
+	        for (int v: adj[u]) {
+	            if (discovered[v] == false) {
 	                queue[tail++] = v;
-	                disc[v] = true;
-	                prev.put(v, u);
-	                if (v == dst) {
-	                    success = true;
-	                    break;
-	                }
+                    discovered[v] = true;
+                    // Total distance is previous node's distance + 1
+                    distanceFromStart[v] = distanceFromStart[u] + 1;
+                    // Same distance for multiple nodes means they were told on the same day;
+                    dayCounter[distanceFromStart[v]]++;
 	            }
-	        }
+            }
+	        
+            // Move backwards from dayCounter so that the "first" day can ultimately be discovered
+            for (int k = dayCounter.length - 1; k >= 0; k--) {
+            	if (dayCounter[k] != 0 && dayCounter[k] > max) {
+            		max = dayCounter[k];
+            		day = k;
+            	}
+            }
+            
         }
         
-        // If emp did reach the target employee
-        if (success) {
-        	int v = dst;
-        	int days = 0;
-        	while (v != src) {
-        		int u = prev.get(v);
-        		v = u;
-        		days++;
-        	}
-            // Upon success, the total number employees reached is incremented
-        	dayArr[days - 1]++;
-
+        // Output formatting
+        if (max == 0 && day == 0) {
+        	System.out.println("0");
+        } else {
+            System.out.println(max + " " + day);
         }
-
-    }
+        
+        }
 
 }
