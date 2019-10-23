@@ -22,10 +22,11 @@ public class uva_10465 {
                 where if Homer has 
             */
 
-            // Can't eat nothing at zero time
+            // Can't eat anything at zero-time
             memo[0] = 0;
 
             // Meat of the dynamic programming algorithm
+            // From one minute up to t minutes
             for (int i = 1; i <= t; i++) {
 
                 int krusty;
@@ -53,15 +54,18 @@ public class uva_10465 {
                     apu++;
                 }
 
-                // Compare which one is going to yield the most burger consumption
+                // Compare which one is going to yield the most burger consumption by i minutes
                 memo[i] = Math.max(krusty, apu);
             }
 
             if (memo[t] != -1) {
                 System.out.println(memo[t]);
             } else {
+                // Have to find point at which drinking was required
                 int i = t;
-                while (memo[--i] == -1) {}
+                while (memo[i] == -1) {
+                    i--;
+                }
                 System.out.println(memo[i] + " " + (t - i));
             }
 
