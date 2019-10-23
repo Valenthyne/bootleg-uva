@@ -48,9 +48,15 @@ public class uva_787 {
 		        	memo[i][1] = x.min(x.multiply(prevMin));
 		        }
 		        
+		       
 		        if (x.compareTo(BigInteger.ZERO) == -1) {
-		        	memo[i][0] = memo[i - 1][0].max(x.max(x.multiply(prevMin)));
-		        	memo[i][1] = memo[i - 1][1].min(x.min(x.multiply(prevMax)));
+		        	if (values.length % 2 == 1) {
+		        		memo[i][0] = memo[i - 1][0].max(x.max(x.multiply(prevMin)));
+		        		memo[i][1] = memo[i - 1][1].min(x.min(x.multiply(prevMax)));
+		        	} else {
+		        		memo[i][0] = x.max(x.multiply(prevMin));
+		        		memo[i][1] = x.min(x.multiply(prevMax));
+		        	}
 		        }
 		        
 		        if (x.compareTo(BigInteger.ZERO) == 0) {
