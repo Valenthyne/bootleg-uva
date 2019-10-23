@@ -12,14 +12,12 @@ public class uva_787 {
 
         BigInteger[][] memo = new BigInteger[200][2];
 
-        while (sc.hasNext()) {
+        while (sc.hasNextInt()) {
         // While loop for handling a single test case
         	
         	ArrayList<BigInteger> arrList = new ArrayList<>();
-        	
-        	
-	        while (sc.hasNextInt()) {
-	        
+                	
+	        while (true) {
 	            int n = sc.nextInt();
 	            if (n == -999999) {
 	                break;
@@ -27,15 +25,18 @@ public class uva_787 {
 	            if (n == 0) {
 	            	arrList.add(BigInteger.ZERO);
 	            } else {
-	            arrList.add(BigInteger.valueOf(n));
+	            	arrList.add(BigInteger.valueOf(n));
 	        	}
 	
 	        }
 	        
+	        
 	        BigInteger[] values = arrList.toArray(new BigInteger[arrList.size()]);
 	        
 	        memo[0][0] = values[0];
-	        memo[0][1] = values[0];
+			memo[0][1] = values[0];
+			
+			int count = 1;
 	        
 	        BigInteger prevMax = memo[0][0];
 	        BigInteger prevMin = memo[0][1];
@@ -50,28 +51,38 @@ public class uva_787 {
 		        
 		       
 		        if (x.compareTo(BigInteger.ZERO) == -1) {
-		        	if (values.length % 2 == 1) {
-		        		memo[i][0] = memo[i - 1][0].max(x.max(x.multiply(prevMin)));
-		        		memo[i][1] = memo[i - 1][1].min(x.min(x.multiply(prevMax)));
-		        	} else {
-		        		memo[i][0] = x.max(x.multiply(prevMin));
-		        		memo[i][1] = x.min(x.multiply(prevMax));
+					memo[i][0] = x.max(x.multiply(prevMin));
+					memo[i][1] = x.min(x.multiply(prevMax));
 		        	}
-		        }
+		        
 		        
 		        if (x.compareTo(BigInteger.ZERO) == 0) {
-		        	memo[i][0] = x.max(prevMax);
+		        	memo[i][0] = BigInteger.ZERO;
 		        	memo[i][1] = BigInteger.ZERO;
 		        }
 		        		        
 		        prevMax = memo[i][0];
-		        prevMin = memo[i][1];
+				prevMin = memo[i][1];
+				
+				count++;
 	        
 	        }
-	        int n = arrList.size();
-	        System.out.println(memo[n - 1][0].max(memo[n - 1][1]));
+			
+			BigInteger max = BigInteger.ZERO;
+
+			for (int i = 0; i < count; i++) {
+				if (memo[i][0] == null)
+					break;
+				if (memo[i][0].compareTo(max) == 1) {
+					max = memo[i][0];
+				}
+			}
+
+	        System.out.println(max);
         
-    }
+        }
+        
         sc.close();
-    }
+	}
+	
 }
