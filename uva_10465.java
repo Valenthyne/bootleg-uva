@@ -39,9 +39,9 @@ public class uva_10465 {
                     krusty = -1;
                 }
 
-                if (krusty >= 0) {
+                // Increment total Krusty Burger count
+                if (krusty >= 0)
                     krusty++;
-                }
 
                 // Considering the case of eating Apu burgers in the time allotted
                 if (i - n >= 0) {
@@ -50,14 +50,15 @@ public class uva_10465 {
                     apu = -1;
                 }
 
-                if (apu >= 0) {
+             // Increment total Apu Burger count
+                if (apu >= 0)
                     apu++;
-                }
 
                 // Compare which one is going to yield the most burger consumption by i minutes
                 memo[i] = Math.max(krusty, apu);
             }
 
+            // In the case where there was no extra time for drinking
             if (memo[t] != -1) {
                 System.out.println(memo[t]);
             } else {
@@ -66,7 +67,10 @@ public class uva_10465 {
                 while (memo[i] == -1) {
                     i--;
                 }
-                System.out.println(memo[i] + " " + (t - i));
+                int drinkTime = t - i;
+                
+                // Print out maximum burgers and the remaining drink time
+                System.out.println(memo[i] + " " + drinkTime);
             }
 
         }
