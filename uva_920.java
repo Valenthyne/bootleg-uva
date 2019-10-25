@@ -8,9 +8,19 @@ public class uva_920 {
 
         Scanner sc = new Scanner(System.in);
 
+        int c = sc.nextInt();
 
+        for (int i = 0; i < c; i++) {
+
+            int n = sc.nextInt();
+
+
+
+
+        }
 
         sc.close();
 
     }
 }
+

@@ -8,6 +8,16 @@ public class uva_866 {
 
         Scanner sc = new Scanner(System.in);
 
+        int c = sc.nextInt();
+
+        for (int i = 0; i < c; i++) {
+            
+            // Need to handle blank lines at some point.
+
+            int lines = sc.nextInt();
+
+        }
+
 
 
         sc.close();
