@@ -18,8 +18,8 @@ public class uva_10465 {
             int[] memo = new int[10001];
 
             /*
-                This memo list will be considering subproblems
-                where if Homer has 
+                Memo list will consider subproblems where Homer only has 
+				as many minutes as the index of the array
             */
 
             // Can't eat anything at zero-time
