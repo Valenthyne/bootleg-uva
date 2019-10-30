@@ -12,7 +12,11 @@ public class uva_920 {
 
         for (int i = 0; i < c; i++) {
 
-            int n = sc.nextInt();
+            int lines = sc.nextInt();
+            
+
+
+            
 
 
 
@@ -21,6 +25,10 @@ public class uva_920 {
 
         sc.close();
 
+    }
+
+    private static distance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow((x2 - x1) ,2) + Math.pow((y2 - y1) ,2));
     }
 }
 
